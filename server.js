@@ -5,7 +5,7 @@ const http = require('http');
 const PORT = 3000;
 
 // se crea el servidor
-const server = http.createServer((requesr, response) => {
+const server = http.createServer((request, response) => {
     // se configura la respuesta HTTP
     response.statusCode = 200; //Salió todo bien
 
