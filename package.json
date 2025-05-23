@@ -1,0 +1,12 @@
+{
+  "name": "dashboar_drones",
+  "version": "1.0.0",
+  "description": "Sistema de control y monitoreo para drones.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
