@@ -1,22 +1,24 @@
-// importamos el módulo http de Node.js
-const http = require('http');
+//Importamos los módulos necesarios
+import express from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url'; //Función para convertir URL a rutas del sistema de archivos
 
-// puerto donde va a correr el servidor
+const app = express();
 const PORT = 3000;
 
-// se crea el servidor
-const server = http.createServer((request, response) => {
-    // se configura la respuesta HTTP
-    response.statusCode = 200; //Salió todo bien
+const __filename = fileURLToPath(import.meta.url); //Convertimos la URL del módulo a ruta del sistema
+const __dirname = path.dirname(__filename); //Obtiene el directorio del archivo actual
 
-    // tipo de contenido que se envía
-    response.setHeader('Content-Type', 'text/plain; charset=utf-8');
-    
-    // se envpia el mensaje
-    response.end('¡Servidor funcionando correctamente!');
+//Middleware para servir archivos estáticos desde la carpeta 'public'
+app.use(express.static(path.join(__dirname, 'public')));
+
+//Se envía el arcchivo html 
+app.get('/', (request, response) => {
+  response.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// ponemos el servidor a escuchar en el puerto definido
-server.listen(PORT, () => {
-    console.log(`Servidor corriendo en http://localhost:${PORT}`);
-});
+//Se inicia el servidor
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+})
+
