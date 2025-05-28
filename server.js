@@ -9,16 +9,16 @@ const PORT = 3000;
 const __filename = fileURLToPath(import.meta.url); //Convertimos la URL del módulo a ruta del sistema
 const __dirname = path.dirname(__filename); //Obtiene el directorio del archivo actual
 
-//Middleware para servir archivos estáticos desde la carpeta 'public'
-app.use(express.static(path.join(__dirname, 'public')));
+//Middleware para servir archivos estáticos desde la carpeta 'view'
+app.use(express.static(path.join(__dirname, 'view')));
+app.use(express.urlencoded({ extended: true }));
 
 //Se envía el arcchivo html 
-app.get('/', (request, response) => {
-  response.sendFile(path.join(__dirname, 'public', 'index.html'));
+app.get('/', (req, res) => {
+  response.sendFile(path.join(__dirname, 'view', 'index.html'));
 });
 
 //Se inicia el servidor
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
 })
-
