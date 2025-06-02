@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard Usuario</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <script defer src="/js/menu.js"></script>
+</head>
+<body>
+  <header class="header">
+    <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
+
+    <div class="logo">
+      <img src="/img/ROBIOTEC_LOGO.png" alt="Robiotec Logo" />
+    </div>
+
+    <div class="user-name" id="nombre-usuario">
+      <!-- Aquí se cargará el nombre del usuario -->
+    </div>
+  </header>
+
+  <nav id="sidebar" class="sidebar hidden">
+    <ul>
+      <li><a href="/home.html">Home</a></li>
+      <li><a href="#">Historial</a></li>
+      <li><a href="#">Trayectoria</a></li>
+      <li><a href="#">Video</a></li>
+      <li><a href="/usuario.html">Usuario</a></li>
+      <li><a href="/" onclick="cerrarSesion()">Cerrar sesión</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <div class="map-placeholder">
+      <!-- Aquí irá el mapa real en el futuro -->
+      <div style="background: #ccc; width: 100%; height: 80vh;">Mapa en tiempo real</div>
+    </div>
+
+    <div class="status-panel">
+      <p><strong>BATERÍA</strong><br><span>00%</span></p>
+      <p><strong>VELOCIDAD</strong><br><span>0.0 km/h</span></p>
+      <p><strong>ALTITUD</strong><br><span>0 m/h</span></p>
+    </div>
+  </main>
+
+  <script>
+    // Mostrar nombre del usuario conectado
+    const usuario = JSON.parse(localStorage.getItem('usuario'));
+
+    if (usuario) {
+      document.getElementById('nombre-usuario').textContent = usuario.nombre;
+    } else {
+      // Redirige si no hay usuario logueado
+      window.location.href = 'index.html';
+    }
+
+    // Función para cerrar sesión
+    function cerrarSesion() {
+      localStorage.removeItem('usuario');
+      window.location.href = 'index.html';
+    }
+  </script>
+</body>
+</html>

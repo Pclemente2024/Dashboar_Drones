@@ -1,12 +1,18 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <title>Login</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <link href="https://fonts.googleapis.com/css2?family=Segoe+UI&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/styles.css">
 </head>
+
 <body>
   <div class="login-container">
     <h2>Iniciar Sesión</h2>
@@ -15,7 +21,7 @@
       <input type="password" id="contraseña" name="contraseña" placeholder="Contraseña" required>
       <button type="submit">LOGIN</button>
     </form>
-    <p id="mensaje" style="color: red; margin-top: 10px;"></p>
+    <p id="mensaje"></p>
   </div>
 
   <script>
@@ -36,23 +42,26 @@
         const data = await response.json();
 
         if (response.ok) {
+          localStorage.setItem('usuario', JSON.stringify(data.usuario));
+
           const nombreCompleto = `${data.usuario.nombre} ${data.usuario.apellido}`;
           document.getElementById('mensaje').style.color = 'green';
           document.getElementById('mensaje').textContent = `Bienvenido, ${nombreCompleto}`;
 
           setTimeout(() => {
             if (data.usuario.rol_id === 2) {
-              // Si es administrador
               window.location.href = 'admin.html';
             } else {
-              // Si es usuario común
-              window.location.href = 'user.html';
+              window.location.href = 'home.html';
             }
-          }, 1000);
-        } else {
+          },1000);
+        }
+        else {
+          document.getElementById('mensaje').style.color = 'red';
           document.getElementById('mensaje').textContent = data.mensaje || 'Error al iniciar sesión.';
         }
       } catch (error) {
+        document.getElementById('mensaje').style.color = 'red';
         document.getElementById('mensaje').textContent = 'Error en el servidor.';
         console.error(error);
       }

@@ -1,3 +1,4 @@
+/* ===== ESTILOS GENERALES ===== */
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
@@ -8,6 +9,7 @@ body {
   height: 100vh;
 }
 
+/* ===== CONTENEDOR DE LOGIN ===== */
 .login-container {
   background-color: rgba(255, 255, 255, 0.05);
   padding: 40px;
@@ -19,6 +21,11 @@ body {
   width: 320px;
 }
 
+.login-container h2 {
+  margin-bottom: 20px;
+}
+
+/* ===== CAMPOS DE INPUT ===== */
 .login-container input[type="email"],
 .login-container input[type="password"] {
   width: 100%;
@@ -35,6 +42,7 @@ body {
   color: #aaa;
 }
 
+/* ===== BOTONES ===== */
 button {
   width: 100%;
   padding: 12px;
@@ -52,6 +60,13 @@ button:hover {
   background-color: #ddd;
 }
 
+/* ===== MENSAJES ===== */
+#mensaje {
+  color: red;
+  margin-top: 10px;
+}
+
+/* ===== PÁGINA DE ÉXITO ===== */
 body.success-page {
   background-color: #f0f4f8;
   display: flex;
@@ -59,13 +74,14 @@ body.success-page {
   align-items: center;
   height: 100vh;
 }
+
 .success-container {
   text-align: center;
   background-color: #ffffff;
   padding: 40px;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  color: #000
+  color: #000;
 }
 
 .success-container h2 {
@@ -88,6 +104,7 @@ body.success-page {
   background-color: #1565c0;
 }
 
+/* ===== CONTENEDOR ADMIN ===== */
 .admin-container {
   background-color: rgba(255, 255, 255, 0.05);
   padding: 40px;
@@ -97,4 +114,25 @@ body.success-page {
   text-align: center;
   color: white;
   width: 600px;
+}
+
+/* ===== RESPONSIVIDAD ===== */
+@media (max-width: 480px) {
+  .login-container {
+    width: 90%;
+    padding: 25px;
+  }
+
+  button {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+
+  .login-container h2 {
+    font-size: 1.2rem;
+  }
+
+  .login-container input {
+    font-size: 0.9rem;
+  }
 }
