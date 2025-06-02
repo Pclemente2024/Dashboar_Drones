@@ -1,24 +1,26 @@
-//Importamos los módulos necesarios
 import express from 'express';
 import path from 'path';
-import { fileURLToPath } from 'url'; //Función para convertir URL a rutas del sistema de archivos
+import { fileURLToPath } from 'url';
+import usuarioRoutes from './routes/usuarioRoutes.js';
 
 const app = express();
 const PORT = 3000;
 
-const __filename = fileURLToPath(import.meta.url); //Convertimos la URL del módulo a ruta del sistema
-const __dirname = path.dirname(__filename); //Obtiene el directorio del archivo actual
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-//Middleware para servir archivos estáticos desde la carpeta 'view'
-app.use(express.static(path.join(__dirname, 'view')));
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'view')));
 
-//Se envía el arcchivo html 
+// Rutas API
+app.use('/api/usuarios', usuarioRoutes);
+
+// Ruta principal
 app.get('/', (req, res) => {
-  response.sendFile(path.join(__dirname, 'view', 'index.html'));
+  res.sendFile(path.join(__dirname, 'view', 'index.html'));
 });
 
-//Se inicia el servidor
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
-})
+});

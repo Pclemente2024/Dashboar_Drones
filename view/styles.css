@@ -51,3 +51,50 @@ button {
 button:hover {
   background-color: #ddd;
 }
+
+body.success-page {
+  background-color: #f0f4f8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.success-container {
+  text-align: center;
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  color: #000
+}
+
+.success-container h2 {
+  color: #2e7d32;
+  margin-bottom: 20px;
+}
+
+.success-container button {
+  width: auto;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.success-container button:hover {
+  background-color: #1565c0;
+}
+
+.admin-container {
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 40px;
+  border-radius: 15px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  color: white;
+  width: 600px;
+}

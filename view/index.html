@@ -10,11 +10,53 @@
 <body>
   <div class="login-container">
     <h2>Iniciar Sesión</h2>
-    <form action="/login" method="POST">
-      <input type="email" name="correo" placeholder="Correo electrónico" required>
-      <input type="password" name="contraseña" placeholder="Contraseña" required>
+    <form id="loginForm">
+      <input type="email" id="correo" name="correo" placeholder="Correo electrónico" required>
+      <input type="password" id="contraseña" name="contraseña" placeholder="Contraseña" required>
       <button type="submit">LOGIN</button>
     </form>
+    <p id="mensaje" style="color: red; margin-top: 10px;"></p>
   </div>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const correo = document.getElementById('correo').value;
+      const contraseña = document.getElementById('contraseña').value;
+
+      try {
+        const response = await fetch('/api/usuarios/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ correo, contraseña })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          const nombreCompleto = `${data.usuario.nombre} ${data.usuario.apellido}`;
+          document.getElementById('mensaje').style.color = 'green';
+          document.getElementById('mensaje').textContent = `Bienvenido, ${nombreCompleto}`;
+
+          setTimeout(() => {
+            if (data.usuario.rol_id === 2) {
+              // Si es administrador
+              window.location.href = 'admin.html';
+            } else {
+              // Si es usuario común
+              window.location.href = 'user.html';
+            }
+          }, 1000);
+        } else {
+          document.getElementById('mensaje').textContent = data.mensaje || 'Error al iniciar sesión.';
+        }
+      } catch (error) {
+        document.getElementById('mensaje').textContent = 'Error en el servidor.';
+        console.error(error);
+      }
+    });
+  </script>
 </body>
 </html>
