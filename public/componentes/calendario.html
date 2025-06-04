@@ -1,0 +1,132 @@
+<!-- Calendario componente -->
+<div class="calendario-contenedor">
+    <span class="icono-calendario" id="icono-calendario">
+        <!-- SVG de calendario blanco -->
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+            <rect x="3" y="4" width="18" height="15" rx="2" stroke="white" stroke-width="2" fill="none" />
+            <path d="M16 2v4M8 2v4M3 10h18" stroke="white" stroke-width="2" />
+            <circle cx="8" cy="14" r="1" fill="white" />
+            <circle cx="12" cy="14" r="1" fill="white" />
+            <circle cx="16" cy="14" r="1" fill="white" />
+        </svg>
+    </span>
+    <input type="date" id="selector-fecha" class="input-fecha" />
+    <span id="fecha-seleccionada" class="fecha-texto"></span>
+</div>
+<script>
+    // Función principal del calendario
+    function inicializarCalendario() {
+        const iconoCalendario = document.getElementById('icono-calendario');
+        const selectorFecha = document.getElementById('selector-fecha');
+        const fechaSeleccionada = document.getElementById('fecha-seleccionada');
+        
+        if (!iconoCalendario || !selectorFecha || !fechaSeleccionada) {
+            console.error('No se encontraron los elementos del calendario');
+            return;
+        }
+
+        // Establecer fecha máxima (ayer)
+        function establecerFechaMaxima() {
+            const hoy = new Date();
+            const ayer = new Date(hoy);
+            ayer.setDate(hoy.getDate() - 1);
+            
+            // Formatear fecha como YYYY-MM-DD
+            const fechaMaxima = ayer.toISOString().split('T')[0];
+            selectorFecha.setAttribute('max', fechaMaxima);
+            
+            console.log('Fecha máxima establecida:', fechaMaxima);
+        }
+
+        // Función para mostrar el calendario
+        function mostrarCalendario() {
+            selectorFecha.style.display = 'inline-block';
+            // Usar setTimeout para asegurar que el elemento sea visible antes de hacer click
+            setTimeout(() => {
+                selectorFecha.click();
+            }, 10);
+        }
+
+        // Función para ocultar el calendario
+        function ocultarCalendario() {
+            setTimeout(() => {
+                selectorFecha.style.display = 'none';
+            }, 100);
+        }
+
+        // Función para validar fecha seleccionada
+        function validarFecha(fechaSeleccionada) {
+            const hoy = new Date();
+            const ayer = new Date(hoy);
+            ayer.setDate(hoy.getDate() - 1);
+            
+            const fechaIngresada = new Date(fechaSeleccionada + 'T00:00:00');
+            
+            return fechaIngresada <= ayer;
+        }
+
+        // Función para mostrar la fecha seleccionada
+        function actualizarFechaSeleccionada() {
+            const fecha = selectorFecha.value;
+            
+            if (fecha) {
+                // Validar que la fecha no sea futura
+                if (!validarFecha(fecha)) {
+                    alert('Por favor selecciona una fecha que ya haya pasado.');
+                    selectorFecha.value = '';
+                    fechaSeleccionada.textContent = '';
+                    ocultarCalendario();
+                    return;
+                }
+                
+                // Formatear la fecha a español
+                const fechaObj = new Date(fecha + 'T00:00:00');
+                const opciones = {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                };
+                const fechaFormateada = fechaObj.toLocaleDateString('es-ES', opciones);
+                fechaSeleccionada.textContent = `📅 ${fechaFormateada}`;
+            } else {
+                fechaSeleccionada.textContent = '';
+            }
+            ocultarCalendario();
+        }
+
+        // Event listeners
+        iconoCalendario.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            mostrarCalendario();
+        });
+
+        selectorFecha.addEventListener('change', actualizarFechaSeleccionada);
+        
+        selectorFecha.addEventListener('blur', function () {
+            ocultarCalendario();
+        });
+
+        // Cerrar calendario si se hace click fuera
+        document.addEventListener('click', function (e) {
+            if (!e.target.closest('.calendario-contenedor')) {
+                ocultarCalendario();
+            }
+        });
+
+        // Establecer la fecha máxima al inicializar
+        establecerFechaMaxima();
+        
+        console.log('Calendario inicializado correctamente con validación de fechas');
+    }
+
+    // Inicializar cuando el DOM esté listo
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', inicializarCalendario);
+    } else {
+        inicializarCalendario();
+    }
+
+    // También inicializar si se dispara el evento personalizado
+    document.addEventListener('calendarioCargado', inicializarCalendario);
+</script>

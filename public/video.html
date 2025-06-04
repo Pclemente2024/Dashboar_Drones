@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Video</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/usuarioStyles.css" />
+  <link rel="stylesheet" href="/css/trayectoriaStyles.css" /> <!-- Añade este si quieres los estilos del calendario -->
+  <script defer src="/js/menu.js"></script>
+  <script defer src="/js/incluirComponentes.js"></script>
+</head>
+<body>
+    <!-- Componente que cargará header y sidebar -->
+    <div id="componente-header"></div>
+
+    <!-- Contenedor donde se cargará el calendario -->
+    <div id="componente-calendario"></div>
+
+    <script>
+        // Cargar el componente calendario
+        async function cargarCalendario() {
+            try {
+                const response = await fetch('/componentes/calendario.html');
+                const html = await response.text();
+                const contenedor = document.getElementById('componente-calendario');
+                if (contenedor) {
+                    contenedor.innerHTML = html;
+                    console.log('Calendario cargado correctamente');
+                    // Disparar evento cuando el calendario esté listo
+                    document.dispatchEvent(new Event('calendarioCargado'));
+                }
+            } catch (error) {
+                console.error('Error cargando el calendario:', error);
+            }
+        }
+
+        // Cargar cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', cargarCalendario);
+    </script>
+</body>
+</html>

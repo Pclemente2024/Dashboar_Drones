@@ -1,35 +1,32 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+  <meta http-equiv="Cache-Control" content ="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Dashboard Usuario</title>
   <link rel="stylesheet" href="/css/style.css" />
   <script defer src="/js/menu.js"></script>
+  <script defer src="/js/incluirComponentes.js"></script>
 </head>
+<script>
+  window.onload = function() {
+    const usuario = localStorage.getItem('usuario');
+    if (!usuario) {
+      window.location.href = 'index.html';
+    }
+
+    window.history.pushState(null, '', window.location.href);
+    window.onpopstate = function() {
+      window.history.pushState(null, '', window.location.href);
+    }
+  }
+</script>
 <body>
-  <header class="header">
-    <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
-
-    <div class="logo">
-      <img src="/img/ROBIOTEC_LOGO.png" alt="Robiotec Logo" />
-    </div>
-
-    <div class="user-name" id="nombre-usuario">
-      <!-- Aquí se cargará el nombre del usuario -->
-    </div>
-  </header>
-
-  <nav id="sidebar" class="sidebar hidden">
-    <ul>
-      <li><a href="/home.html">Home</a></li>
-      <li><a href="#">Historial</a></li>
-      <li><a href="#">Trayectoria</a></li>
-      <li><a href="#">Video</a></li>
-      <li><a href="/usuario.html">Usuario</a></li>
-      <li><a href="/" onclick="cerrarSesion()">Cerrar sesión</a></li>
-    </ul>
-  </nav>
+  <!-- Aquí se insertará dinámicamente el header y el sidebar -->
+  <div id="componente-header"></div>
 
   <main>
     <div class="map-placeholder">
@@ -43,23 +40,5 @@
       <p><strong>ALTITUD</strong><br><span>0 m/h</span></p>
     </div>
   </main>
-
-  <script>
-    // Mostrar nombre del usuario conectado
-    const usuario = JSON.parse(localStorage.getItem('usuario'));
-
-    if (usuario) {
-      document.getElementById('nombre-usuario').textContent = usuario.nombre;
-    } else {
-      // Redirige si no hay usuario logueado
-      window.location.href = 'index.html';
-    }
-
-    // Función para cerrar sesión
-    function cerrarSesion() {
-      localStorage.removeItem('usuario');
-      window.location.href = 'index.html';
-    }
-  </script>
 </body>
 </html>

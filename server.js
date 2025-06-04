@@ -6,7 +6,7 @@ import usuarioRoutes from './routes/usuarioRoutes.js';
 const app = express();
 
 //IP y puerto del servidor
-const HOST = '192.168.1.218';
+const HOST = '192.168.1.220';
 const PORT = 3000;
 
 const __filename = fileURLToPath(import.meta.url);

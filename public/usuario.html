@@ -1,11 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Perfil Usuario</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/usuarioStyles.css" /> <!-- Nuevo enlace -->
+  <script defer src="/js/menu.js"></script>
+  <script defer src="/js/incluirComponentes.js"></script>
 </head>
 <body>
-    
+  <!-- Componente que cargará header y sidebar -->
+  <div id="componente-header"></div>
+
+  <main>
+    <div class="perfil-container">
+      <div class="perfil-icono">
+        <img src="/img/usuario.png" alt="Usuario" />
+      </div>
+
+      <div class="perfil-info">
+        <p><strong>NOMBRES:</strong> <span id="nombres"></span></p>
+        <p><strong>APELLIDOS:</strong> <span id="apellidos"></span></p>
+        <p><strong>CORREO:</strong> <span id="correo"></span></p>
+        <p><strong>CELULAR:</strong> <span id="telefono_celular"></span></p>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Espera a que el componente se cargue antes de rellenar datos
+    document.addEventListener('DOMContentLoaded', () => {
+      const usuario = JSON.parse(localStorage.getItem('usuario'));
+
+      if (!usuario) {
+        window.location.href = 'index.html';
+      } else {
+        const nombreUsuario = document.getElementById('nombre-usuario');
+        if (nombreUsuario) nombreUsuario.textContent = usuario.nombre;
+
+        document.getElementById('nombres').textContent = usuario.nombre;
+        document.getElementById('apellidos').textContent = usuario.apellido;
+        document.getElementById('correo').textContent = usuario.correo;
+        document.getElementById('telefono_celular').textContent = usuario.telefono_celular || 'No registrado';
+      }
+    });
+
+    function cerrarSesion() {
+      localStorage.removeItem('usuario');
+      window.location.href = 'index.html';
+    }
+  </script>
 </body>
 </html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Historial de Eventos</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/historialStyles.css">
+  <script defer src="/js/incluirComponentes.js"></script>
+  <script defer src="/js/menu.js"></script>
+</head>
+<body>
+
+  <!-- Aquí se incluirá el header y menú lateral -->
+  <div id="componente-header"></div>
+
+  <!-- Contenido principal -->
+  <main>
+    <div class="historial-container">
+      <table class="historial-table">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Fecha</th>
+            <th>Hora</th>
+          </tr>
+        </thead>
+        <tbody id="tabla-historial">
+          <!-- Filas dinámicas -->
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Script para cargar historial -->
+  <script>
+    async function cargarHistorial() {
+      try {
+        const response = await fetch('/api/historial');
+        const data = await response.json();
+
+        const tbody = document.getElementById('tabla-historial');
+        tbody.innerHTML = '';
+
+        data.forEach(evento => {
+          const fila = document.createElement('tr');
+          fila.innerHTML = `
+            <td>${evento.nombre}</td>
+            <td>${evento.descripcion}</td>
+            <td>${evento.fecha}</td>
+            <td>${evento.hora}</td>
+          `;
+          tbody.appendChild(fila);
+        });
+      } catch (error) {
+        console.error('Error al cargar historial:', error);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', cargarHistorial);
+  </script>
+
+</body>
+</html>

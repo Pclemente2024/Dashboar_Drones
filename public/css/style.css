@@ -140,23 +140,36 @@ main {
   margin-top: 0.5rem; /* Pequeño espacio entre título y valor */
 }
 @media (max-width: 600px) {
+  main {
+    flex-direction: column;
+  }
+
+  .map-placeholder {
+    width: 100%;
+    height: 40vh;
+  }
+
   .status-panel {
-    flex-direction: row; /* En móvil, cambiar a horizontal */
-    align-items: center;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    flex: none;
+    flex-direction: row; /* ya está */
     justify-content: space-around;
     padding: 1rem 0.5rem;
     height: auto;
   }
+
   .status-panel p {
-    margin: 0;
     font-size: 0.9rem;
+    margin: 0;
     flex: 1;
+    padding: 0 5px;
   }
+
   .status-panel span {
     font-size: 1.1rem;
     margin-top: 0.25rem;
   }
-  .map-placeholder {
-    height: 40vh;
-  }
 }
+
