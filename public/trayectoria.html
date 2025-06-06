@@ -19,6 +19,10 @@
     <div id="componente-calendario"></div>
 
     <script>
+        const usuario = localStorage.getItem('usuario');
+if (!usuario) {
+  window.location.href = '/';
+}
         // Cargar el componente calendario
         async function cargarCalendario() {
             try {

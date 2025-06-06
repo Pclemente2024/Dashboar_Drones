@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Video</title>
-  <link rel="stylesheet" href="/css/style.css" />
-  <link rel="stylesheet" href="/css/usuarioStyles.css" />
-  <link rel="stylesheet" href="/css/trayectoriaStyles.css" /> <!-- Añade este si quieres los estilos del calendario -->
-  <script defer src="/js/menu.js"></script>
-  <script defer src="/js/incluirComponentes.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Video</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/usuarioStyles.css" />
+    <link rel="stylesheet" href="/css/trayectoriaStyles.css" />
+    <!-- Añade este si quieres los estilos del calendario -->
+    <script defer src="/js/menu.js"></script>
+    <script defer src="/js/incluirComponentes.js"></script>
 </head>
+
 <body>
     <!-- Componente que cargará header y sidebar -->
     <div id="componente-header"></div>
@@ -18,6 +21,11 @@
     <div id="componente-calendario"></div>
 
     <script>
+        const usuario = localStorage.getItem('usuario');
+        if (!usuario) {
+            window.location.href = '/';
+        }
+
         // Cargar el componente calendario
         async function cargarCalendario() {
             try {
@@ -39,4 +47,5 @@
         document.addEventListener('DOMContentLoaded', cargarCalendario);
     </script>
 </body>
+
 </html>

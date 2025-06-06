@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Perfil Usuario</title>
   <link rel="stylesheet" href="/css/style.css" />
   <link rel="stylesheet" href="/css/usuarioStyles.css" /> <!-- Nuevo enlace -->
   <script defer src="/js/menu.js"></script>
   <script defer src="/js/incluirComponentes.js"></script>
 </head>
+
 <body>
   <!-- Componente que cargará header y sidebar -->
   <div id="componente-header"></div>
@@ -29,6 +31,10 @@
   </main>
 
   <script>
+    const usuario = localStorage.getItem('usuario');
+    if (!usuario) {
+      window.location.href = '/';
+    }
     // Espera a que el componente se cargue antes de rellenar datos
     document.addEventListener('DOMContentLoaded', () => {
       const usuario = JSON.parse(localStorage.getItem('usuario'));
@@ -52,4 +58,5 @@
     }
   </script>
 </body>
+
 </html>

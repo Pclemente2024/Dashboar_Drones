@@ -1,39 +1,46 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-  <meta http-equiv="Cache-Control" content ="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard Usuario</title>
   <link rel="stylesheet" href="/css/style.css" />
   <script defer src="/js/menu.js"></script>
   <script defer src="/js/incluirComponentes.js"></script>
 </head>
 <script>
-  window.onload = function() {
+  document.addEventListener('DOMContentLoaded', function () {
     const usuario = localStorage.getItem('usuario');
+
+    // Si no hay usuario, redirige al login
     if (!usuario) {
-      window.location.href = 'index.html';
+      window.location.href = '/';
+      return;
     }
 
+    // Si hay usuario, permite el acceso
     window.history.pushState(null, '', window.location.href);
-    window.onpopstate = function() {
+    window.onpopstate = function () {
       window.history.pushState(null, '', window.location.href);
-    }
-  }
+    };
+  });
 </script>
+
 <body>
   <!-- Aquí se insertará dinámicamente el header y el sidebar -->
   <div id="componente-header"></div>
-
   <main>
     <div class="map-placeholder">
-      <!-- Aquí irá el mapa real en el futuro -->
-      <div style="background: #ccc; width: 100%; height: 80vh;">Mapa en tiempo real</div>
+      <!-- Mapa real embebido desde Google Maps -->
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d704.8260173444334!2d-79.93873593555946!3d-2.1158831143416417!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x902d73b9f4d745f1%3A0xe1fb4d233e541b99!2sROBIOTEC!5e0!3m2!1ses-419!2sec!4v1749215694700!5m2!1ses-419!2sec"
+        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
     </div>
-
     <div class="status-panel">
       <p><strong>BATERÍA</strong><br><span>00%</span></p>
       <p><strong>VELOCIDAD</strong><br><span>0.0 km/h</span></p>
@@ -41,4 +48,5 @@
     </div>
   </main>
 </body>
+
 </html>

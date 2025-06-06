@@ -4,6 +4,14 @@
   <meta charset="UTF-8">
   <title>Administrador</title>
   <link rel="stylesheet" href="/css/styles.css">
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const usuario = localStorage.getItem('usuario');
+      if (!usuario) {
+        window.location.href = '/';
+      }
+    });
+  </script>
 </head>
 <body>
   <div class="admin-container">
