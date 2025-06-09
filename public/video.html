@@ -21,10 +21,20 @@
     <div id="componente-calendario"></div>
 
     <script>
-        const usuario = localStorage.getItem('usuario');
-        if (!usuario) {
-            window.location.href = '/';
-        }
+
+  const usuario = localStorage.getItem('usuario');
+
+  if (!usuario) {
+    location.replace('/'); // Redirige si no hay usuario
+  }
+
+
+  window.onpageshow = function(event) {
+    if (event.persisted) {
+      location.reload(); // Si volvió desde caché, recarga para revalidar
+    }
+  };
+
 
         // Cargar el componente calendario
         async function cargarCalendario() {
@@ -45,6 +55,8 @@
 
         // Cargar cuando el DOM esté listo
         document.addEventListener('DOMContentLoaded', cargarCalendario);
+
+        
     </script>
 </body>
 

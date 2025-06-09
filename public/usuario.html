@@ -31,16 +31,26 @@
   </main>
 
   <script>
-    const usuario = localStorage.getItem('usuario');
-    if (!usuario) {
-      window.location.href = '/';
+
+  const usuario = localStorage.getItem('usuario');
+
+  if (!usuario) {
+    location.replace('/'); // Redirige si no hay usuario
+  }
+
+
+  window.onpageshow = function(event) {
+    if (event.persisted) {
+      location.reload(); // Si volvió desde caché, recarga para revalidar
     }
+  };
+
     // Espera a que el componente se cargue antes de rellenar datos
     document.addEventListener('DOMContentLoaded', () => {
       const usuario = JSON.parse(localStorage.getItem('usuario'));
 
       if (!usuario) {
-        window.location.href = 'index.html';
+        window.location.href = '/';
       } else {
         const nombreUsuario = document.getElementById('nombre-usuario');
         if (nombreUsuario) nombreUsuario.textContent = usuario.nombre;
@@ -52,9 +62,10 @@
       }
     });
 
-    function cerrarSesion() {
-      localStorage.removeItem('usuario');
-      window.location.href = 'index.html';
+       function cerrarSesion() {
+        console.log('Cerrando sesión...');
+      localStorage.clear();
+      window.location.href = '/';
     }
   </script>
 </body>

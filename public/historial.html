@@ -76,6 +76,20 @@
 
   <!-- Script para cargar historial -->
   <script>
+    
+  const usuario = localStorage.getItem('usuario');
+
+  if (!usuario) {
+    location.replace('/'); // Redirige si no hay usuario
+  }
+
+
+  window.onpageshow = function(event) {
+    if (event.persisted) {
+      location.reload(); // Si volvió desde caché, recarga para revalidar
+    }
+  };
+
     async function cargarHistorial() {
       try {
         const response = await fetch('/api/historial');

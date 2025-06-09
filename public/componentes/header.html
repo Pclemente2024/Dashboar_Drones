@@ -17,12 +17,6 @@
     <li><a href="/trayectoria.html">Trayectoria</a></li>
     <li><a href="/video.html">Video</a></li>
     <li><a href="/usuario.html">Usuario</a></li>
-    <li><a href="/" onclick="cerrarSesion()">Cerrar sesión</a></li>
+    <li><a onclick="localStorage.clear();    window.location.href = '/'">Cerrar sesión</a></li>
   </ul>
 </nav>
-<script>
-  function cerrarSesion() {
-    localStorage.removeItem('usuario');
-    window.location.href = 'index.html';
-  }
-</script>

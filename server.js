@@ -16,10 +16,20 @@ const __dirname = path.dirname(__filename);
 const htmlPages = ['home', 'historial', 'trayectoria', 'usuario', 'video', 'admin'];
 
 // Middleware para redireccionar .html a rutas limpias
+// @ts-ignore
 app.use((req, res, next) => {
-  if (req.path.includes('.html')) {
-    return res.redirect(301, req.path.replace('.html', ''));
+   const rutasNoProtegidas = ['/', '/'];
+  const usuario = req.headers['usuario'];
+
+  // Permitir el acceso si es la ruta raíz o index.html
+  if (rutasNoProtegidas.includes(req.path)) {
+    return next();
   }
+
+  if (usuario) {
+    return res.status(401).send('No autorizado');
+  }
+
   next();
 });
 
