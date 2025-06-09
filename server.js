@@ -6,7 +6,7 @@ import usuarioRoutes from './routes/usuarioRoutes.js';
 const app = express();
 
 // IP y puerto del servidor
-const HOST = '192.168.1.218';
+const HOST = 'localhost';
 const PORT = 3000;
 
 const __filename = fileURLToPath(import.meta.url);
@@ -16,9 +16,8 @@ const __dirname = path.dirname(__filename);
 const htmlPages = ['home', 'historial', 'trayectoria', 'usuario', 'video', 'admin'];
 
 // Middleware para redireccionar .html a rutas limpias
-// @ts-ignore
 app.use((req, res, next) => {
-   const rutasNoProtegidas = ['/', '/'];
+  const rutasNoProtegidas = ['/', '/index'];
   const usuario = req.headers['usuario'];
 
   // Permitir el acceso si es la ruta raíz o index.html
@@ -63,9 +62,14 @@ app.use(express.static(path.join(__dirname, 'public'), {
 // Rutas API
 app.use('/api/usuarios', usuarioRoutes);
 
-// Ruta principal
+// Ruta principal (login)
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'view', 'index.html'));
+});
+
+// Ruta explícita para /index.html (login)
+app.get('/index.html', (req, res) => {
+  res.redirect('/');
 });
 
 // Iniciar servidor accesible desde red local

@@ -15,18 +15,18 @@
 <script>
   document.addEventListener('DOMContentLoaded', function () {
 
-  const usuario = localStorage.getItem('usuario');
+    const usuario = localStorage.getItem('usuario');
 
-  if (!usuario) {
-    location.replace('/'); // Redirige si no hay usuario
-  }
-
-
-  window.onpageshow = function(event) {
-    if (event.persisted) {
-      location.reload(); // Si volvió desde caché, recarga para revalidar
+    if (!usuario) {
+      location.replace('/'); // Redirige si no hay usuario
     }
-  };
+
+
+    window.onpageshow = function (event) {
+      if (event.persisted) {
+        location.reload(); // Si volvió desde caché, recarga para revalidar
+      }
+    };
 
 
     // Si hay usuario, permite el acceso
@@ -55,9 +55,15 @@
       </iframe>
     </div>
     <div class="status-panel">
-      <p><strong>BATERÍA</strong><br><span>00%</span></p>
-      <p><strong>VELOCIDAD</strong><br><span>0.0 km/h</span></p>
-      <p><strong>ALTITUD</strong><br><span>0 m/h</span></p>
+      <div class="status-item">
+        <strong>BATERÍA</strong><br><span>00%</span>
+      </div>
+      <div class="status-item">
+        <strong>VELOCIDAD</strong><br><span>0.0 km/h</span>
+      </div>
+      <div class="status-item">
+        <strong>ALTITUD</strong><br><span>0 m/h</span>
+      </div>
     </div>
   </main>
 </body>
