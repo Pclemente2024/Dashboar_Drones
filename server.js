@@ -1,4 +1,6 @@
 import express from 'express';
+import https from 'https';
+import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import usuarioRoutes from './routes/usuarioRoutes.js';
@@ -6,13 +8,19 @@ import usuarioRoutes from './routes/usuarioRoutes.js';
 const app = express();
 
 // IP y puerto del servidor
-const HOST = 'localhost';
+const HOST = '192.168.1.218';
 const PORT = 3000;
 
+// Obtener __dirname en módulo ES
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Lista de páginas HTML protegidas
+// Cargar certificados generados por mkcert
+const httpsOptions = {
+  key: fs.readFileSync(path.join(__dirname, 'certs', '192.168.1.218-key.pem')),
+  cert: fs.readFileSync(path.join(__dirname, 'certs', '192.168.1.218.pem'))
+};
+
 const htmlPages = ['home', 'historial', 'trayectoria', 'usuario', 'video', 'admin'];
 
 // Middleware para redireccionar .html a rutas limpias
@@ -20,7 +28,6 @@ app.use((req, res, next) => {
   const rutasNoProtegidas = ['/', '/index'];
   const usuario = req.headers['usuario'];
 
-  // Permitir el acceso si es la ruta raíz o index.html
   if (rutasNoProtegidas.includes(req.path)) {
     return next();
   }
@@ -32,7 +39,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// Middleware para proteger rutas HTML (excepto index)
+// Middleware para proteger rutas HTML
 app.use((req, res, next) => {
   const isHtmlPage = htmlPages.some(page => req.path === `/${page}`);
   if (
@@ -45,7 +52,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// Configuración de rutas para páginas HTML (sin extensión)
+// Configurar rutas para servir archivos HTML sin extensión
 htmlPages.forEach(page => {
   app.get(`/${page}`, (req, res) => {
     res.sendFile(path.join(__dirname, 'public', `${page}.html`));
@@ -56,7 +63,7 @@ htmlPages.forEach(page => {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public'), {
-  extensions: ['html'], // Permite acceder a archivos sin especificar la extensión .html
+  extensions: ['html']
 }));
 
 // Rutas API
@@ -67,12 +74,12 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'view', 'index.html'));
 });
 
-// Ruta explícita para /index.html (login)
+// Ruta explícita para /index.html
 app.get('/index.html', (req, res) => {
   res.redirect('/');
 });
 
-// Iniciar servidor accesible desde red local
-app.listen(PORT, HOST, () => {
-  console.log(`Servidor corriendo en http://${HOST}:${PORT}`);
+// Iniciar servidor HTTPS
+https.createServer(httpsOptions, app).listen(PORT, HOST, () => {
+  console.log(`Servidor corriendo en https://${HOST}:${PORT}`);
 });
