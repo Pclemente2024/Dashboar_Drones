@@ -5,6 +5,8 @@
   justify-content: center;
   min-height: 60vh;
   width: 100%;
+  position: relative; /* Añadido */
+  z-index: 1; /* Añadido - menor que el sidebar */
 }
 
 #video {
@@ -13,6 +15,8 @@
   border-radius: 8px;
   background: black;
   display: block;
+  position: relative; /* Añadido */
+  z-index: 1; /* Añadido - menor que el sidebar */
 }
 
 #camera-error {
@@ -20,4 +24,40 @@
   color: red;
   text-align: center;
   width: 100%;
+}
+
+/* Corrección específica para móviles */
+@media (max-width: 600px) {
+  /* Asegurar que el sidebar tenga mayor z-index que el video */
+  .sidebar {
+    z-index: 1000; /* Aumentado significativamente */
+  }
+  
+  /* Asegurar que el menú hamburguesa esté por encima de todo */
+  .menu-icon {
+    z-index: 1100; /* Mayor que el sidebar */
+  }
+  
+  /* Prevenir que el video interfiera con el menú en móviles */
+  .video-container {
+    z-index: 1;
+  }
+  
+  #video {
+    max-width: 90vw; /* Limitar ancho en móviles */
+    height: auto; /* Mantener proporción */
+    z-index: 1;
+  }
+  
+  /* Overlay para cerrar menú cuando se toca fuera */
+  .sidebar.active::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 250px;
+    width: calc(100vw - 250px);
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 99;
+  }
 }
