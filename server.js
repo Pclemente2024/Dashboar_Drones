@@ -8,17 +8,18 @@ import usuarioRoutes from './routes/usuarioRoutes.js';
 const app = express();
 
 // IP y puerto del servidor
-const HOST = '192.168.1.218';
+const HOST = '192.168.1.146';
 const PORT = 3000;
 
-// Obtener __dirname en módulo ES
+// Obtener __dirname
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = path.dirname(__filename)
+
 
 // Cargar certificados generados por mkcert
 const httpsOptions = {
-  key: fs.readFileSync(path.join(__dirname, 'certs', '192.168.1.218-key.pem')),
-  cert: fs.readFileSync(path.join(__dirname, 'certs', '192.168.1.218.pem'))
+  key: fs.readFileSync(path.join(__dirname, 'certs', '192.168.1.146-key.pem')),
+  cert: fs.readFileSync(path.join(__dirname, 'certs', '192.168.1.146.pem'))
 };
 
 const htmlPages = ['home', 'historial', 'trayectoria', 'usuario', 'video', 'admin'];

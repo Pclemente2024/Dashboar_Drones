@@ -4,36 +4,13 @@
   <meta charset="UTF-8">
   <title>Administrador</title>
   <link rel="stylesheet" href="/css/styles.css">
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-
-  const usuario = localStorage.getItem('usuario');
-
-  if (!usuario) {
-    location.replace('/'); // Redirige si no hay usuario
-  }
-
-
-  window.onpageshow = function(event) {
-    if (event.persisted) {
-      location.reload(); // Si volvió desde caché, recarga para revalidar
-    }
-  };
-
-
-      function cerrarSesion() {
-        console.log('Cerrando sesión...');
-      localStorage.clear();
-      window.location.href = '/';
-    }
-    });
-  </script>
+  <script defer src="/js/admin.js"></script>
 </head>
 <body>
   <div class="admin-container">
     <h2>Bienvenido Administrador</h2>
     <br>
-    <button onclick="cerrarSesion()">Cerrar sesión</button>
+    <li><a onclick="localStorage.clear();    window.location.href = '/'">Cerrar sesión</a></li>
   </div>
 </body>
 </html>

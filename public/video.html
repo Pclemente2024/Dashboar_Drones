@@ -1,68 +1,24 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Video</title>
-  <link rel="stylesheet" href="/css/style.css" />
-  <link rel="stylesheet" href="/css/usuarioStyles.css" />
-  <link rel="stylesheet" href="/css/trayectoriaStyles.css" />
-  <link rel="stylesheet" href="/css/videoStyles.css" />
-  <script defer src="/js/menu.js"></script>
-  <script defer src="/js/incluirComponentes.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Video</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/usuarioStyles.css" />
+    <link rel="stylesheet" href="/css/trayectoriaStyles.css" />
+    <link rel="stylesheet" href="/css/videoStyles.css" />
+    <script defer src="/js/menu.js"></script>
+    <script defer src="/js/incluirComponentes.js"></script>
+    <script defer src="/js/video.js"></script>
 </head>
-
-<body>
-  <div id="componente-header"></div>
-  <div id="componente-calendario"></div>
-
-  <div class="video-container">
-    <video id="video" width="640" height="480" autoplay playsinline></video>
-    <div id="camera-error"></div>
-  </div>
-
-  <script>
-    const usuario = localStorage.getItem('usuario');
-    if (!usuario) {
-      location.replace('/'); // Redirige si no hay usuario
-    }
-
-    window.onpageshow = function (event) {
-      if (event.persisted) {
-        location.reload();
-      }
-    };
-
-    // Cargar el componente calendario
-    async function cargarCalendario() {
-      try {
-        const response = await fetch('/componentes/calendario.html');
-        const html = await response.text();
-        const contenedor = document.getElementById('componente-calendario');
-        if (contenedor) {
-          contenedor.innerHTML = html;
-          document.dispatchEvent(new Event('calendarioCargado'));
-        }
-      } catch (error) {
-        console.error('Error cargando el calendario:', error);
-      }
-    }
-    document.addEventListener('DOMContentLoaded', cargarCalendario);
-
-    // Acceso a la cámara
-    async function startCamera() {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        const video = document.getElementById('video');
-        video.srcObject = stream;
-      } catch (err) {
-        document.getElementById('camera-error').textContent =
-          'No se pudo acceder a la cámara: ' + err.message;
-      }
-    }
-    document.addEventListener('DOMContentLoaded', startCamera);
-  </script>
+<body class="video-fullscreen">
+    <div id="componente-header"></div>
+    <div id="componente-calendario"></div>
+    
+    <div class="video-container">
+        <video id="video" autoplay playsinline muted></video>
+        <div id="camera-error"></div>
+    </div>
 </body>
-
 </html>
