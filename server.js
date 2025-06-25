@@ -4,6 +4,8 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import usuarioRoutes from './routes/usuarioRoutes.js';
+import communicationRoutes from './communication/index.js';
+import { iniciarWebSocket } from './communication/websocketHandler.js';
 
 const app = express();
 
@@ -69,6 +71,7 @@ app.use(express.static(path.join(__dirname, 'public'), {
 
 // Rutas API
 app.use('/api/usuarios', usuarioRoutes);
+app.use('/communication', communicationRoutes);
 
 // Ruta principal (login)
 app.get('/', (req, res) => {
@@ -81,6 +84,9 @@ app.get('/index.html', (req, res) => {
 });
 
 // Iniciar servidor HTTPS
-https.createServer(httpsOptions, app).listen(PORT, HOST, () => {
+const httpsServer = https.createServer(httpsOptions, app);
+
+iniciarWebSocket(httpsServer);
+httpsServer.listen(PORT, HOST, () => {
   console.log(`Servidor corriendo en https://${HOST}:${PORT}`);
 });

@@ -13,6 +13,7 @@
   <script defer src="/js/incluirComponentes.js"></script>
   <script defer src="/js/home.js"></script>
 </head>
+
 <body>
   <!-- Aquí se insertará dinámicamente el header y el sidebar -->
   <div id="componente-header"></div>
@@ -26,15 +27,16 @@
     </div>
     <div class="status-panel">
       <div class="status-item">
-        <strong>BATERÍA</strong><br><span>00%</span>
+        <strong>BATERÍA</strong><br><span id="bateria">00%</span>
       </div>
       <div class="status-item">
-        <strong>VELOCIDAD</strong><br><span>0.0 km/h</span>
+        <strong>VELOCIDAD</strong><br><span id="velocidad">0.0 km/h</span>
       </div>
       <div class="status-item">
-        <strong>ALTITUD</strong><br><span>0 m/h</span>
+        <strong>ALTITUD</strong><br><span id="altitud">0 m</span>
       </div>
     </div>
+
   </main>
 </body>
 
