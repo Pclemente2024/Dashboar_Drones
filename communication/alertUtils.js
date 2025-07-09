@@ -1,31 +1,29 @@
 import pool from '../models/db.js';
-import { logger } from './logger.js';
 
-export async function generateAlert(serial, type, message) {
+export async function generarAlerta(serial_number, tipo, mensaje) {
   try {
-    const droneQuery = await pool.query(
-      'SELECT id FROM drones WHERE serial_number = $1',
-      [serial]
-    );
+    const { rows } = await pool.query(`
+      SELECT d.id AS dron_id, hv.id AS historial_id, ta.id AS termino_id
+      FROM drones d
+      JOIN historial_vuelos hv ON hv.dron_id = d.id
+      JOIN terminologia_alertas ta ON ta.tipo = $1
+      WHERE d.serial_number = $2 AND hv.estado = 'en_progreso'
+      LIMIT 1
+    `, [tipo, serial_number]);
 
-    if (droneQuery.rows.length === 0) {
-      throw new Error(`Drone ${serial} not found`);
+    if (rows.length === 0) {
+      console.warn(`No se encontró vuelo en progreso o tipo de alerta para ${serial_number}`);
+      return;
     }
 
-    const alertTypeQuery = await pool.query(
-      'SELECT id FROM alert_types WHERE code = $1',
-      [type]
-    );
+    const { historial_id, termino_id } = rows[0];
 
-    const alertTypeId = alertTypeQuery.rows[0]?.id || 1; // Default to generic alert
+    await pool.query(`
+      INSERT INTO alertas (historial_vuelo_id, termino_alerta_id, mensaje)
+      VALUES ($1, $2, $3)
+    `, [historial_id, termino_id, mensaje]);
 
-    await pool.query(
-      'INSERT INTO alerts (drone_id, alert_type_id, message) VALUES ($1, $2, $3)',
-      [droneQuery.rows[0].id, alertTypeId, message]
-    );
-
-    logger.info(`Alert generated for ${serial}: ${type} - ${message}`);
   } catch (error) {
-    logger.error(`Failed to generate alert: ${error.message}`);
+    console.error('Error generando alerta:', error);
   }
 }

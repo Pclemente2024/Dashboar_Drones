@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 
 // Dirección del backend (ajústalo si cambia tu IP o puerto)
-const SERVER_URL = 'https://40e4-157-100-111-185.ngrok-free.app/communication/iridium-data';
+const SERVER_URL = 'https://0e93297e1d3b.ngrok-free.app/communication/iridium-data';
 
 
 // Desactiva verificación de certificados si usas HTTPS local con self-signed cert
@@ -43,6 +43,8 @@ async function enviarDatos() {
   } catch (error) {
     console.error('❌ Error al enviar datos:', error.message);
   }
+// Envía cada 10 segundos
+setInterval(enviarDatos, 10000);
 }
 
 // Envía cada 10 segundos
