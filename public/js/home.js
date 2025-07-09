@@ -22,11 +22,12 @@ document.addEventListener('DOMContentLoaded', function () {
         window.location.href = '/';
     }
 
-    // WEBSOCKET: Escucha de datos en tiempo real
+    // Datos en tiempo real
     const bateriaElem = document.getElementById('bateria');
     const velocidadElem = document.getElementById('velocidad');
     const altitudElem = document.getElementById('altitud');
 
+    // Conectar al WebSocket
     const socket = new WebSocket("wss://192.168.1.146:3000");
 
     socket.onopen = () => {
@@ -34,25 +35,30 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     socket.onmessage = (event) => {
-        const data = JSON.parse(event.data);
+        try {
+            const data = JSON.parse(event.data);
+            console.log("Mensaje WebSocket recibido:", data);
 
-        if (data.tipo === 'iridium') {
-            const payload = data.payload;
+            if (data.tipo === 'iridium') {
+                const payload = data.payload;
 
-            if (payload.porcentaje_bateria !== undefined) {
-                bateriaElem.textContent = `${payload.porcentaje_bateria}%`;
+                if (payload.porcentaje_bateria !== undefined) {
+                    bateriaElem.textContent = `${payload.porcentaje_bateria}%`;
+                }
+
+                if (payload.velocidad_airspeed !== undefined) {
+                    velocidadElem.textContent = `${payload.velocidad_airspeed} km/h`;
+                }
+
+                if (payload.altura !== undefined) {
+                    altitudElem.textContent = `${payload.altura} m`;
+                }
             }
-
-            if (payload.velocidad !== undefined || payload.velocidad_airspeed !== undefined) {
-                const velocidad = payload.velocidad || payload.velocidad_airspeed;
-                velocidadElem.textContent = `${velocidad} km/h`;
-            }
-
-            if (payload.altura !== undefined) {
-                altitudElem.textContent = `${payload.altura} m`;
-            }
+        } catch (error) {
+            console.error("Error procesando mensaje WebSocket:", error);
         }
     };
+
 
     socket.onerror = (error) => {
         console.error("❌ Error WebSocket:", error);

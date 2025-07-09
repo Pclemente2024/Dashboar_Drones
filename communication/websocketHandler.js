@@ -1,18 +1,36 @@
 import { WebSocketServer } from 'ws';
+import { logger } from './logger.js';
 
-export const iniciarWebSocket = (httpsServer) => {
-  const wss = new WebSocketServer({ server: httpsServer });
-  global.wss = wss;
+let wss = null;
+
+export function initWebSocket(server) {
+  wss = new WebSocketServer({ server });
 
   wss.on('connection', (ws) => {
-    console.log("🟢 Cliente conectado al WebSocket");
-
-    ws.on('message', (msg) => {
-      console.log("Mensaje recibido del cliente:", msg);
+    logger.info('New WebSocket connection');
+    
+    ws.on('message', (message) => {
+      logger.debug(`WebSocket message: ${message}`);
     });
 
     ws.on('close', () => {
-      console.log("🔴 Cliente desconectado");
+      logger.info('WebSocket connection closed');
     });
   });
-};
+
+  // Hacer disponible globalmente para otros módulos
+  global.wss = wss;
+}
+
+export function broadcast(data) {
+  if (!wss) {
+    logger.warn('WebSocket server not initialized');
+    return;
+  }
+
+  wss.clients.forEach((client) => {
+    if (client.readyState === 1) {
+      client.send(JSON.stringify(data));
+    }
+  });
+}

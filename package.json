@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon server.js",
-    "start": "node server.js"
+    "start": "node server.js",
+    "simular": "node communication/simuladorDron.js"
   },
   "keywords": [],
   "author": "",
@@ -14,8 +15,12 @@
   "dependencies": {
     "express": "^5.1.0",
     "express-session": "^1.18.1",
+    "ngeohash": "^0.6.3",
+    "node-fetch": "^3.3.2",
     "pg": "^8.16.0",
     "sequelize": "^6.37.7",
+    "winston": "^3.17.0",
+    "winston-daily-rotate-file": "^5.0.0",
     "ws": "^8.18.2"
   },
   "devDependencies": {

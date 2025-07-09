@@ -3,90 +3,89 @@ import https from 'https';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import communicationModule from './communication/index.js'; // Importa el módulo completo
 import usuarioRoutes from './routes/usuarioRoutes.js';
-import communicationRoutes from './communication/index.js';
-import { iniciarWebSocket } from './communication/websocketHandler.js';
+import { logger } from './communication/logger.js'; // Usa el logger unificado
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Configuración del servidor
+const HOST = process.env.HOST || '192.168.1.146';
+const PORT = process.env.PORT || 3000;
+
+// Inicialización de Express
 const app = express();
 
-// IP y puerto del servidor
-const HOST = '192.168.1.146';
-const PORT = 3000;
-
-// Obtener __dirname
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename)
-
-
-// Cargar certificados generados por mkcert
+// Configuración de HTTPS
 const httpsOptions = {
   key: fs.readFileSync(path.join(__dirname, 'certs', '192.168.1.146-key.pem')),
   cert: fs.readFileSync(path.join(__dirname, 'certs', '192.168.1.146.pem'))
 };
 
-const htmlPages = ['home', 'historial', 'trayectoria', 'usuario', 'video', 'admin'];
-
-// Middleware para redireccionar .html a rutas limpias
-app.use((req, res, next) => {
-  const rutasNoProtegidas = ['/', '/index'];
-  const usuario = req.headers['usuario'];
-
-  if (rutasNoProtegidas.includes(req.path)) {
-    return next();
-  }
-
-  if (usuario) {
-    return res.status(401).send('No autorizado');
-  }
-
-  next();
-});
-
-// Middleware para proteger rutas HTML
-app.use((req, res, next) => {
-  const isHtmlPage = htmlPages.some(page => req.path === `/${page}`);
-  if (
-    isHtmlPage &&
-    !req.headers.referer &&
-    !req.headers['x-requested-with']
-  ) {
-    return res.redirect('/');
-  }
-  next();
-});
-
-// Configurar rutas para servir archivos HTML sin extensión
-htmlPages.forEach(page => {
-  app.get(`/${page}`, (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', `${page}.html`));
-  });
-});
-
-// Middlewares
+// Middlewares esenciales
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public'), {
   extensions: ['html']
 }));
 
-// Rutas API
-app.use('/api/usuarios', usuarioRoutes);
-app.use('/communication', communicationRoutes);
+// Configuración de rutas
+const htmlPages = ['home', 'historial', 'trayectoria', 'usuario', 'video', 'admin'];
 
-// Ruta principal (login)
+// Middleware de seguridad para rutas HTML
+app.use((req, res, next) => {
+  const isHtmlPage = htmlPages.some(page => req.path === `/${page}`);
+  if (isHtmlPage && !req.headers.referer && !req.headers['x-requested-with']) {
+    return res.redirect('/');
+  }
+  next();
+});
+
+// Rutas HTML
+htmlPages.forEach(page => {
+  app.get(`/${page}`, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', `${page}.html`));
+  });
+});
+
+// 5. Rutas API
+app.use('/api/usuarios', usuarioRoutes);
+app.use('/communication', communicationModule.router); // Usa el router del módulo
+
+// 6. Ruta principal
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'view', 'index.html'));
 });
 
-// Ruta explícita para /index.html
-app.get('/index.html', (req, res) => {
-  res.redirect('/');
-});
-
-// Iniciar servidor HTTPS
+// 7. Inicialización del servidor
 const httpsServer = https.createServer(httpsOptions, app);
 
-iniciarWebSocket(httpsServer);
-httpsServer.listen(PORT, HOST, () => {
-  console.log(`Servidor corriendo en https://${HOST}:${PORT}`);
-});
+// 8. Iniciar todos los sistemas
+const startServer = async () => {
+  try {
+    // Iniciar módulo de comunicación (Iridium + WebSocket)
+    await communicationModule.start(httpsServer);
+    
+    httpsServer.listen(PORT, HOST, () => {
+      logger.info(`Servidor HTTPS iniciado en https://${HOST}:${PORT}`);
+      logger.info(`Ambiente: ${process.env.NODE_ENV || 'development'}`);
+    });
+
+    // Manejo de cierre limpio
+    process.on('SIGINT', async () => {
+      logger.info('Recibido SIGINT. Cerrando servidor...');
+      await communicationModule.stop();
+      httpsServer.close(() => {
+        logger.info('Servidor cerrado correctamente');
+        process.exit(0);
+      });
+    });
+
+  } catch (error) {
+    logger.error(`Error al iniciar el servidor: ${error.message}`);
+    process.exit(1);
+  }
+};
+
+startServer();
