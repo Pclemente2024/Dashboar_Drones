@@ -1,6 +1,12 @@
 import droneManager from './droneCommunicationManager.js';
 import geohash from 'ngeohash';
+import logger from '../logger.js';
 const { decode } = geohash;
+
+function parseCampo(valor) {
+  const limpio = valor.replace(/[^\d\-]/g, ''); // Elimina letras, 'AA', 'NULL', etc.
+  return parseInt(limpio || '0', 10);
+}
 
 function parsearTrama(trama) {
   if (!trama.startsWith('$') || !trama.endsWith('&')) {
@@ -16,23 +22,22 @@ function parsearTrama(trama) {
 
   return {
     geohash: partes[0],
-    alt: parseInt(partes[1], 10),
-    heading: parseInt(partes[2], 10),
-    airspeed: parseInt(partes[3], 10),
-    groundspeed: parseInt(partes[4], 10),
-    climb_rate: parseInt(partes[5], 10),
-    numero_satelites: parseInt(partes[6], 10),
-    voltaje_bateria: parseInt(partes[7], 10)
+    alt: parseCampo(partes[1]),
+    heading: parseCampo(partes[2]),
+    airspeed: parseCampo(partes[3]),
+    groundspeed: parseCampo(partes[4]),
+    climb_rate: parseCampo(partes[5]),
+    numero_satelites: parseCampo(partes[6]),
+    voltaje_bateria: parseCampo(partes[7])
   };
 }
 
 function calcularPorcentaje(voltageMv) {
-  // Ejemplo para una batería de 3 celdas LiPo (3S), 12.6V totalmente cargada (4200 mV por celda)
-  const voltMin = 9900;  // 3.3V * 3
-  const voltMax = 12600; // 4.2V * 3
+  const voltMin = 9900;
+  const voltMax = 12600;
 
   let porcentaje = ((voltageMv - voltMin) / (voltMax - voltMin)) * 100;
-  porcentaje = Math.max(0, Math.min(100, porcentaje)); // limitar a 0-100
+  porcentaje = Math.max(0, Math.min(100, porcentaje));
   return Math.round(porcentaje);
 }
 
@@ -41,8 +46,11 @@ export const recibirDatosIridium = async (req, res) => {
     const { serial_number, trama } = req.body;
 
     if (!serial_number || !trama) {
+      logger.warn("Faltan campos en la trama recibida");
       return res.status(400).json({ mensaje: "Faltan campos: serial_number o trama" });
     }
+
+    logger.info(`Trama recibida desde Rock7: ${trama}`);
 
     const datosTrama = parsearTrama(trama);
     const { latitude, longitude } = decode(datosTrama.geohash);
@@ -61,10 +69,10 @@ export const recibirDatosIridium = async (req, res) => {
       numero_satelites: datosTrama.numero_satelites
     };
 
-    console.log(`📡 Datos parseados desde trama:`, datos);
+    logger.info(`Datos parseados: ${JSON.stringify(datos)}`);
     await droneManager.registrarDato(serial_number, datos);
 
-    // Enviar al dashboard vía WebSocket
+    // WebSocket al dashboard
     const payloadAdaptado = {
       porcentaje_bateria: datos.porcentaje_bateria,
       velocidad_airspeed: datos.airspeed,
@@ -81,13 +89,15 @@ export const recibirDatosIridium = async (req, res) => {
         }
       });
     } else {
-      console.warn("⚠️ WebSocket server no disponible (global.wss undefined)");
+      logger.warn("WebSocket server no disponible (global.wss undefined)");
     }
 
     res.status(200).json({ mensaje: "Trama procesada correctamente" });
 
   } catch (error) {
-    console.error("❌ Error al procesar trama:", error);
+    logger.error(`Error al procesar trama: ${error.message}`);
     res.status(500).json({ mensaje: "Error interno del servidor" });
   }
 };
+
+export { parsearTrama, calcularPorcentaje };

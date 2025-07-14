@@ -1,0 +1,4 @@
+[2025-07-14 08:31:42] INFO: Trama recibida desde Rock7: $9q8yyh1k3de%10971%209%484%437%26%11%12354&
+[2025-07-14 08:31:42] INFO: Datos parseados: {"serial_number":"DRN001","lat":37.77173973619938,"lon":-122.42985494434834,"alt":10971,"airspeed":484,"groundspeed":437,"climb_rate":26,"heading":209,"voltaje_bateria":12354,"porcentaje_bateria":91,"numero_satelites":11}
+[2025-07-14 08:37:02] INFO: Trama recibida desde Rock7: $9q8yyh1k3de%10311%154%404%454%24%10%10024&
+[2025-07-14 08:37:02] INFO: Datos parseados: {"serial_number":"DRN001","lat":37.77173973619938,"lon":-122.42985494434834,"alt":10311,"airspeed":404,"groundspeed":454,"climb_rate":24,"heading":154,"voltaje_bateria":10024,"porcentaje_bateria":5,"numero_satelites":10}

@@ -17,9 +17,9 @@
   <div class="login-container">
     <h2>Iniciar Sesión</h2>
     <form id="loginForm">
-      <input type="email" id="correo" name="correo" placeholder="Correo electrónico" required>
-      <input type="password" id="contraseña" name="contraseña" placeholder="Contraseña" required>
-      <button type="submit">LOGIN</button>
+      <input type="email" id="correo" name="correo" placeholder="Correo electrónico" required class="form-control">
+      <input type="password" id="contraseña" name="contraseña" placeholder="Contraseña" required class="form-control">
+      <button type="submit" class="form-control">LOGIN</button>
     </form>
     <p id="mensaje"></p>
   </div>
@@ -54,9 +54,8 @@
             } else {
               window.location.href = 'home';
             }
-          },1000);
-        }
-        else {
+          }, 1000);
+        } else {
           document.getElementById('mensaje').style.color = 'red';
           document.getElementById('mensaje').textContent = data.mensaje || 'Error al iniciar sesión.';
         }
@@ -68,4 +67,5 @@
     });
   </script>
 </body>
+
 </html>
