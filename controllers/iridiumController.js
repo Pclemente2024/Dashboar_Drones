@@ -1,10 +1,11 @@
-import droneManager from './droneCommunicationManager.js';
+import droneManager from '../communication/droneCommunicationManager.js';
 import geohash from 'ngeohash';
 import logger from '../logger.js';
+
 const { decode } = geohash;
 
 function parseCampo(valor) {
-  const limpio = valor.replace(/[^\d\-]/g, ''); // Elimina letras, 'AA', 'NULL', etc.
+  const limpio = valor.replace(/[^\d\-]/g, '');
   return parseInt(limpio || '0', 10);
 }
 
@@ -13,7 +14,7 @@ function parsearTrama(trama) {
     throw new Error('Trama inválida: falta $ o &');
   }
 
-  const cuerpo = trama.slice(1, -1); // Quitar $ y &
+  const cuerpo = trama.slice(1, -1);
   const partes = cuerpo.split('%');
 
   if (partes.length !== 8) {
@@ -37,20 +38,25 @@ function calcularPorcentaje(voltageMv) {
   const voltMax = 12600;
 
   let porcentaje = ((voltageMv - voltMin) / (voltMax - voltMin)) * 100;
-  porcentaje = Math.max(0, Math.min(100, porcentaje));
-  return Math.round(porcentaje);
+  return Math.round(Math.max(0, Math.min(100, porcentaje)));
 }
+
+// Conversiones
+const toKnots = (cmps) => (cmps / 100) * 1.9438;
+const toFeet = (cm) => (cm / 100) * 3.28084;
+const toClimbFtMin = (cmps) => (cmps / 100) * 196.8504;
+const toVolts = (mv) => (mv / 1000).toFixed(2);
 
 export const recibirDatosIridium = async (req, res) => {
   try {
     const { serial_number, trama } = req.body;
 
     if (!serial_number || !trama) {
-      logger.warn("Faltan campos en la trama recibida");
+      logger.warn("Faltan campos: serial_number o trama");
       return res.status(400).json({ mensaje: "Faltan campos: serial_number o trama" });
     }
 
-    logger.info(`Trama recibida desde Rock7: ${trama}`);
+    logger.info(`Trama recibida: ${trama}`);
 
     const datosTrama = parsearTrama(trama);
     const { latitude, longitude } = decode(datosTrama.geohash);
@@ -70,13 +76,36 @@ export const recibirDatosIridium = async (req, res) => {
     };
 
     logger.info(`Datos parseados: ${JSON.stringify(datos)}`);
+
     await droneManager.registrarDato(serial_number, datos);
 
-    // WebSocket al dashboard
+    // Generar alerta si la batería está baja
+    if (datos.porcentaje_bateria < 20) {
+      const { generarAlerta } = await import('./alertUtils.js');
+      await generarAlerta(serial_number, 'bateria_baja', 'Batería baja detectada');
+
+      if (global.wss) {
+        global.wss.clients.forEach(client => {
+          if (client.readyState === 1) {
+            client.send(JSON.stringify({
+              tipo: 'alerta',
+              mensaje: 'Batería baja detectada en el dron'
+            }));
+          }
+        });
+      }
+    }
+
+    // Payload con conversiones
     const payloadAdaptado = {
       porcentaje_bateria: datos.porcentaje_bateria,
-      velocidad_airspeed: datos.airspeed,
-      altura: datos.alt
+      velocidad_airspeed_knots: toKnots(datos.airspeed).toFixed(1),
+      velocidad_groundspeed_knots: toKnots(datos.groundspeed).toFixed(1),
+      altura_ft: toFeet(datos.alt).toFixed(1),
+      climb_rate_ft_min: toClimbFtMin(datos.climb_rate).toFixed(1),
+      heading: datos.heading,
+      voltaje_bateria_v: toVolts(datos.voltaje_bateria),
+      numero_satelites: datos.numero_satelites
     };
 
     if (global.wss) {

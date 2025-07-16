@@ -1,5 +1,5 @@
 import express from 'express';
-import { recibirDatosIridium } from './iridiumController.js';
+import { recibirDatosIridium } from '../controllers/iridiumController.js';
 
 const router = express.Router();
 

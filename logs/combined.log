@@ -2,3 +2,46 @@
 [2025-07-14 08:31:42] INFO: Datos parseados: {"serial_number":"DRN001","lat":37.77173973619938,"lon":-122.42985494434834,"alt":10971,"airspeed":484,"groundspeed":437,"climb_rate":26,"heading":209,"voltaje_bateria":12354,"porcentaje_bateria":91,"numero_satelites":11}
 [2025-07-14 08:37:02] INFO: Trama recibida desde Rock7: $9q8yyh1k3de%10311%154%404%454%24%10%10024&
 [2025-07-14 08:37:02] INFO: Datos parseados: {"serial_number":"DRN001","lat":37.77173973619938,"lon":-122.42985494434834,"alt":10311,"airspeed":404,"groundspeed":454,"climb_rate":24,"heading":154,"voltaje_bateria":10024,"porcentaje_bateria":5,"numero_satelites":10}
+[2025-07-14 11:36:01] INFO: Trama recibida desde Rock7: $9q8yyh1k3de%11661%165%492%438%23%11%12205&
+[2025-07-14 11:36:01] INFO: Datos parseados: {"serial_number":"DRN001","lat":37.77173973619938,"lon":-122.42985494434834,"alt":11661,"airspeed":492,"groundspeed":438,"climb_rate":23,"heading":165,"voltaje_bateria":12205,"porcentaje_bateria":85,"numero_satelites":11}
+[2025-07-14 11:36:11] INFO: Trama recibida desde Rock7: $9q8yyh1k3de%11760%259%423%496%28%11%11368&
+[2025-07-14 11:36:11] INFO: Datos parseados: {"serial_number":"DRN001","lat":37.77173973619938,"lon":-122.42985494434834,"alt":11760,"airspeed":423,"groundspeed":496,"climb_rate":28,"heading":259,"voltaje_bateria":11368,"porcentaje_bateria":54,"numero_satelites":11}
+[2025-07-14 11:36:21] INFO: Trama recibida desde Rock7: $9q8yyh1k3de%10369%291%450%462%23%12%12324&
+[2025-07-14 11:36:21] INFO: Datos parseados: {"serial_number":"DRN001","lat":37.77173973619938,"lon":-122.42985494434834,"alt":10369,"airspeed":450,"groundspeed":462,"climb_rate":23,"heading":291,"voltaje_bateria":12324,"porcentaje_bateria":90,"numero_satelites":12}
+[2025-07-14 11:36:31] INFO: Trama recibida desde Rock7: $9q8yyh1k3de%10181%318%488%479%23%11%10517&
+[2025-07-14 11:36:31] INFO: Datos parseados: {"serial_number":"DRN001","lat":37.77173973619938,"lon":-122.42985494434834,"alt":10181,"airspeed":488,"groundspeed":479,"climb_rate":23,"heading":318,"voltaje_bateria":10517,"porcentaje_bateria":23,"numero_satelites":11}
+[2025-07-14 11:36:41] INFO: Trama recibida desde Rock7: $9q8yyh1k3de%11846%345%423%497%20%10%10947&
+[2025-07-14 11:36:41] INFO: Datos parseados: {"serial_number":"DRN001","lat":37.77173973619938,"lon":-122.42985494434834,"alt":11846,"airspeed":423,"groundspeed":497,"climb_rate":20,"heading":345,"voltaje_bateria":10947,"porcentaje_bateria":39,"numero_satelites":10}
+[2025-07-14 11:36:51] INFO: Trama recibida desde Rock7: $9q8yyh1k3de%11007%284%414%460%21%10%10963&
+[2025-07-14 11:36:51] INFO: Datos parseados: {"serial_number":"DRN001","lat":37.77173973619938,"lon":-122.42985494434834,"alt":11007,"airspeed":414,"groundspeed":460,"climb_rate":21,"heading":284,"voltaje_bateria":10963,"porcentaje_bateria":39,"numero_satelites":10}
+[2025-07-14 11:37:01] INFO: Trama recibida desde Rock7: $9q8yyh1k3de%11866%279%449%491%21%10%11450&
+[2025-07-14 11:37:01] INFO: Datos parseados: {"serial_number":"DRN001","lat":37.77173973619938,"lon":-122.42985494434834,"alt":11866,"airspeed":449,"groundspeed":491,"climb_rate":21,"heading":279,"voltaje_bateria":11450,"porcentaje_bateria":57,"numero_satelites":10}
+[2025-07-14 11:37:11] INFO: Trama recibida desde Rock7: $9q8yyh1k3de%10241%24%466%484%20%11%10262&
+[2025-07-14 11:37:11] INFO: Datos parseados: {"serial_number":"DRN001","lat":37.77173973619938,"lon":-122.42985494434834,"alt":10241,"airspeed":466,"groundspeed":484,"climb_rate":20,"heading":24,"voltaje_bateria":10262,"porcentaje_bateria":13,"numero_satelites":11}
+[2025-07-14 11:37:21] INFO: Trama recibida desde Rock7: $9q8yyh1k3de%11528%127%443%462%24%11%12235&
+[2025-07-14 11:37:21] INFO: Datos parseados: {"serial_number":"DRN001","lat":37.77173973619938,"lon":-122.42985494434834,"alt":11528,"airspeed":443,"groundspeed":462,"climb_rate":24,"heading":127,"voltaje_bateria":12235,"porcentaje_bateria":86,"numero_satelites":11}
+[2025-07-14 11:37:31] INFO: Trama recibida desde Rock7: $9q8yyh1k3de%10226%312%453%433%28%11%11333&
+[2025-07-14 11:37:31] INFO: Datos parseados: {"serial_number":"DRN001","lat":37.77173973619938,"lon":-122.42985494434834,"alt":10226,"airspeed":453,"groundspeed":433,"climb_rate":28,"heading":312,"voltaje_bateria":11333,"porcentaje_bateria":53,"numero_satelites":11}
+[2025-07-14 12:29:53] INFO: Trama recibida: $9q8yyh1k3de%10165%104%404%427%28%11%10114&
+[2025-07-14 12:29:53] INFO: Datos parseados: {"serial_number":"DRN001","lat":37.77173973619938,"lon":-122.42985494434834,"alt":10165,"airspeed":404,"groundspeed":427,"climb_rate":28,"heading":104,"voltaje_bateria":10114,"porcentaje_bateria":8,"numero_satelites":11}
+[2025-07-14 12:30:02] INFO: Trama recibida: $9q8yyh1k3de%10691%26%461%473%23%12%10538&
+[2025-07-14 12:30:02] INFO: Datos parseados: {"serial_number":"DRN001","lat":37.77173973619938,"lon":-122.42985494434834,"alt":10691,"airspeed":461,"groundspeed":473,"climb_rate":23,"heading":26,"voltaje_bateria":10538,"porcentaje_bateria":24,"numero_satelites":12}
+[2025-07-14 12:30:12] INFO: Trama recibida: $9q8yyh1k3de%11129%248%409%468%25%12%10102&
+[2025-07-14 12:30:12] INFO: Datos parseados: {"serial_number":"DRN001","lat":37.77173973619938,"lon":-122.42985494434834,"alt":11129,"airspeed":409,"groundspeed":468,"climb_rate":25,"heading":248,"voltaje_bateria":10102,"porcentaje_bateria":7,"numero_satelites":12}
+[2025-07-16 08:19:01] INFO: Trama recibida: $9q8yyh1k3de%11831%321%408%403%28%11%12247&
+[2025-07-16 08:19:01] INFO: Datos parseados: {"serial_number":"DRN001","lat":37.77173973619938,"lon":-122.42985494434834,"alt":11831,"airspeed":408,"groundspeed":403,"climb_rate":28,"heading":321,"voltaje_bateria":12247,"porcentaje_bateria":87,"numero_satelites":11}
+[2025-07-16 08:19:11] INFO: Trama recibida: $9q8yyh1k3de%11649%247%475%484%23%10%12335&
+[2025-07-16 08:19:11] INFO: Datos parseados: {"serial_number":"DRN001","lat":37.77173973619938,"lon":-122.42985494434834,"alt":11649,"airspeed":475,"groundspeed":484,"climb_rate":23,"heading":247,"voltaje_bateria":12335,"porcentaje_bateria":90,"numero_satelites":10}
+[2025-07-16 08:19:21] INFO: Trama recibida: $9q8yyh1k3de%10785%275%457%439%24%10%10362&
+[2025-07-16 08:19:21] INFO: Datos parseados: {"serial_number":"DRN001","lat":37.77173973619938,"lon":-122.42985494434834,"alt":10785,"airspeed":457,"groundspeed":439,"climb_rate":24,"heading":275,"voltaje_bateria":10362,"porcentaje_bateria":17,"numero_satelites":10}
+[2025-07-16 08:19:21] ERROR: Error al procesar trama: Cannot find module 'C:\Users\robiotec\Documents\drones\Dashboar_Drones\controllers\alertUtils.js' imported from C:\Users\robiotec\Documents\drones\Dashboar_Drones\controllers\iridiumController.js
+[2025-07-16 08:19:31] INFO: Trama recibida: $9q8yyh1k3de%10577%182%431%408%22%11%11939&
+[2025-07-16 08:19:31] INFO: Datos parseados: {"serial_number":"DRN001","lat":37.77173973619938,"lon":-122.42985494434834,"alt":10577,"airspeed":431,"groundspeed":408,"climb_rate":22,"heading":182,"voltaje_bateria":11939,"porcentaje_bateria":76,"numero_satelites":11}
+[2025-07-16 08:19:41] INFO: Trama recibida: $9q8yyh1k3de%10040%181%474%486%20%11%11625&
+[2025-07-16 08:19:41] INFO: Datos parseados: {"serial_number":"DRN001","lat":37.77173973619938,"lon":-122.42985494434834,"alt":10040,"airspeed":474,"groundspeed":486,"climb_rate":20,"heading":181,"voltaje_bateria":11625,"porcentaje_bateria":64,"numero_satelites":11}
+[2025-07-16 12:22:18] INFO: Trama recibida: $9q8yyh1k3de%10215%194%438%483%27%10%10964&
+[2025-07-16 12:22:18] INFO: Datos parseados: {"serial_number":"DRN001","lat":37.77173973619938,"lon":-122.42985494434834,"alt":10215,"airspeed":438,"groundspeed":483,"climb_rate":27,"heading":194,"voltaje_bateria":10964,"porcentaje_bateria":39,"numero_satelites":10}
+[2025-07-16 12:22:28] INFO: Trama recibida: $9q8yyh1k3de%11098%169%449%460%23%12%12267&
+[2025-07-16 12:22:28] INFO: Datos parseados: {"serial_number":"DRN001","lat":37.77173973619938,"lon":-122.42985494434834,"alt":11098,"airspeed":449,"groundspeed":460,"climb_rate":23,"heading":169,"voltaje_bateria":12267,"porcentaje_bateria":88,"numero_satelites":12}
+[2025-07-16 14:33:19] INFO: Trama recibida: $9q8yyh1k3de%11009%180%429%465%21%12%11850&
+[2025-07-16 14:33:19] INFO: Datos parseados: {"serial_number":"DRN001","lat":37.77173973619938,"lon":-122.42985494434834,"alt":11009,"airspeed":429,"groundspeed":465,"climb_rate":21,"heading":180,"voltaje_bateria":11850,"porcentaje_bateria":72,"numero_satelites":12}

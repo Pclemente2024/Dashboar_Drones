@@ -26,18 +26,26 @@ document.addEventListener('DOMContentLoaded', function () {
     const bateriaElem = document.getElementById('bateria');
     const velocidadElem = document.getElementById('velocidad');
     const altitudElem = document.getElementById('altitud');
+    const climbElem = document.getElementById('climb');
+    const voltajeElem = document.getElementById('voltaje');
+    const satsElem = document.getElementById('satelites');
+
 
     // Conectar al WebSocket
     const socket = new WebSocket("wss://192.168.1.146:3000");
 
     socket.onopen = () => {
-        console.log("✅ Conectado al WebSocket");
+        console.log("Conectado al WebSocket");
     };
 
     socket.onmessage = (event) => {
         try {
             const data = JSON.parse(event.data);
-            console.log("Mensaje WebSocket recibido:", data);
+
+            if (data.tipo === 'alerta') {
+                alert(data.mensaje); // Muestra alerta en dashboard
+                return;
+            }
 
             if (data.tipo === 'iridium') {
                 const payload = data.payload;
@@ -46,25 +54,37 @@ document.addEventListener('DOMContentLoaded', function () {
                     bateriaElem.textContent = `${payload.porcentaje_bateria}%`;
                 }
 
-                if (payload.velocidad_airspeed !== undefined) {
-                    velocidadElem.textContent = `${payload.velocidad_airspeed} km/h`;
+                if (payload.velocidad_airspeed_knots !== undefined) {
+                    velocidadElem.textContent = `${payload.velocidad_airspeed_knots} kt`;
                 }
 
-                if (payload.altura !== undefined) {
-                    altitudElem.textContent = `${payload.altura} m`;
+                if (payload.altura_ft !== undefined) {
+                    altitudElem.textContent = `${payload.altura_ft} ft`;
+                }
+
+                if (payload.climb_rate_ft_min !== undefined) {
+                    climbElem.textContent = `${payload.climb_rate_ft_min} ft/min`;
+                }
+
+                if (payload.voltaje_bateria_v !== undefined) {
+                    voltajeElem.textContent = `${payload.voltaje_bateria_v} V`;
+                }
+
+                if (payload.numero_satelites !== undefined) {
+                    satsElem.textContent = payload.numero_satelites;
                 }
             }
+
         } catch (error) {
             console.error("Error procesando mensaje WebSocket:", error);
         }
     };
 
-
     socket.onerror = (error) => {
-        console.error("❌ Error WebSocket:", error);
+        console.error("Error WebSocket:", error);
     };
 
     socket.onclose = () => {
-        console.log("🔌 Conexión WebSocket cerrada");
+        console.log("Conexión WebSocket cerrada");
     };
 });

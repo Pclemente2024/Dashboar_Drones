@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 
-const SERVER_URL = 'https://9e0e4342f4d4.ngrok-free.app/communication/iridium-data';
+const SERVER_URL = ' https://8ffe83539bc5.ngrok-free.app/communication/iridium-data'; //esta URL se cambia segun el ngrok generado
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 const serialNumber = 'DRN001';

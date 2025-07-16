@@ -21,7 +21,7 @@ class DroneCommunicationManager {
             );
 
             if (result.rows.length === 0) {
-                console.warn(`⚠️ Dron con serial '${serial}' no registrado en la base de datos.`);
+                console.warn(`Dron con serial '${serial}' no registrado en la base de datos.`);
                 return;
             }
 
@@ -57,7 +57,7 @@ class DroneCommunicationManager {
             }
 
         } catch (error) {
-            console.error('❌ Error registrando datos del dron:', error);
+            console.error('Error registrando datos del dron:', error);
         }
     }
 
@@ -65,7 +65,7 @@ class DroneCommunicationManager {
         try {
             await generarAlerta(serial, 'desconexion', `Dron ${serial} se ha desconectado por inactividad.`);
         } catch (error) {
-            console.error(`❌ Error al marcar desconexión del dron ${serial}:`, error);
+            console.error(`Error al marcar desconexión del dron ${serial}:`, error);
         } finally {
             this.dronesActivos.delete(serial);
         }
@@ -76,7 +76,7 @@ class DroneCommunicationManager {
             const ahora = new Date();
             for (const [serial, timestamp] of this.dronesActivos.entries()) {
                 if (ahora - timestamp > this.timeoutDesconexion) {
-                    console.warn(`⚠️ Dron ${serial} sin datos por más de 30 segundos`);
+                    console.warn(`Dron ${serial} sin datos por más de 30 segundos`);
                     await this.marcarDesconectado(serial);
                 }
             }

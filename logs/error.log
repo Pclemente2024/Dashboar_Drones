@@ -1,0 +1,1 @@
+[2025-07-16 08:19:21] ERROR: Error al procesar trama: Cannot find module 'C:\Users\robiotec\Documents\drones\Dashboar_Drones\controllers\alertUtils.js' imported from C:\Users\robiotec\Documents\drones\Dashboar_Drones\controllers\iridiumController.js
