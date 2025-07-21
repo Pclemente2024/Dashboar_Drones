@@ -81,7 +81,7 @@ export const recibirDatosIridium = async (req, res) => {
 
     // Generar alerta si la batería está baja
     if (datos.porcentaje_bateria < 20) {
-      const { generarAlerta } = await import('./alertUtils.js');
+      const { generarAlerta } = await import('../communication/alertUtils.js');
       await generarAlerta(serial_number, 'bateria_baja', 'Batería baja detectada');
 
       if (global.wss) {
