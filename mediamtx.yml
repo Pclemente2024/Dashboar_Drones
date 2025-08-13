@@ -1,0 +1,34 @@
+# Configuración MediaMTX optimizada
+logLevel: info
+logDestinations: [stdout]
+
+# Protocolo RTSP
+rtsp: yes
+rtspAddress: :8554
+
+# Protocolo HLS
+hls: yes
+hlsAddress: :8888
+hlsDirectory: ./hls
+hlsSegmentCount: 3
+hlsSegmentDuration: 1s
+
+# WebRTC para baja latencia
+webrtc: yes
+webrtcAddress: :8889
+
+# Rutas de streaming
+paths:
+  drone:
+    source: ${RTSP_URL}
+    sourceOnDemand: yes
+    publishUser: 
+    publishPass: 
+    readUser: 
+    readPass: 
+
+# API y métricas para monitoreo
+api: yes
+apiAddress: 127.0.0.1:9997
+metrics: yes
+metricsAddress: 127.0.0.1:9998

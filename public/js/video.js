@@ -1,39 +1,51 @@
 const usuario = localStorage.getItem('usuario');
 if (!usuario) {
-    location.replace('/'); // Redirige si no hay usuario
+  location.replace('/');
 }
 
 window.onpageshow = function (event) {
-    if (event.persisted) {
-        location.reload();
-    }
+  if (event.persisted) {
+    location.reload();
+  }
 };
+
+document.addEventListener('DOMContentLoaded', () => {
+  cargarCalendario();
+  iniciarStreamHLS();
+});
 
 // Cargar el componente calendario
 async function cargarCalendario() {
-    try {
-        const response = await fetch('/componentes/calendario.html');
-        const html = await response.text();
-        const contenedor = document.getElementById('componente-calendario');
-        if (contenedor) {
-            contenedor.innerHTML = html;
-            document.dispatchEvent(new Event('calendarioCargado'));
-        }
-    } catch (error) {
-        console.error('Error cargando el calendario:', error);
+  try {
+    const response = await fetch('/componentes/calendario.html');
+    const html = await response.text();
+    const contenedor = document.getElementById('componente-calendario');
+    if (contenedor) {
+      contenedor.innerHTML = html;
+      document.dispatchEvent(new Event('calendarioCargado'));
     }
+  } catch (error) {
+    console.error('Error cargando el calendario:', error);
+  }
 }
-document.addEventListener('DOMContentLoaded', cargarCalendario);
 
-// Acceso a la cámara
-async function startCamera() {
-    try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        const video = document.getElementById('video');
-        video.srcObject = stream;
-    } catch (err) {
-        document.getElementById('camera-error').textContent =
-            'No se pudo acceder a la cámara: ' + err.message;
-    }
+// Reproducir el video HLS del dron
+function iniciarStreamHLS() {
+  const video = document.getElementById('video');
+  const videoSrc = 'http://localhost:8000/mystream/index.m3u8'; // URL de MediaMTX
+
+  if (Hls.isSupported()) {
+    const hls = new Hls();
+    hls.loadSource(videoSrc);
+    hls.attachMedia(video);
+    hls.on(Hls.Events.ERROR, function (event, data) {
+      document.getElementById('camera-error').textContent =
+        'Error al cargar el stream: ' + data.details;
+    });
+  } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+    video.src = videoSrc;
+  } else {
+    document.getElementById('camera-error').textContent =
+      'Tu navegador no soporta video en vivo (HLS)';
+  }
 }
-document.addEventListener('DOMContentLoaded', startCamera);

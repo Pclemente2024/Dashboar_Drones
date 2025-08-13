@@ -1,24 +1,25 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Video</title>
-    <link rel="stylesheet" href="/css/style.css" />
-    <link rel="stylesheet" href="/css/usuarioStyles.css" />
-    <link rel="stylesheet" href="/css/trayectoriaStyles.css" />
-    <link rel="stylesheet" href="/css/videoStyles.css" />
-    <script defer src="/js/menu.js"></script>
-    <script defer src="/js/incluirComponentes.js"></script>
-    <script defer src="/js/video.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Video en tiempo real</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/usuarioStyles.css" />
+  <link rel="stylesheet" href="/css/trayectoriaStyles.css" />
+  <link rel="stylesheet" href="/css/videoStyles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <script defer src="/js/menu.js"></script>
+  <script defer src="/js/incluirComponentes.js"></script>
+  <script defer src="/js/video.js"></script>
 </head>
 <body class="video-fullscreen">
-    <div id="componente-header"></div>
-    <div id="componente-calendario"></div>
-    
-    <div class="video-container">
-        <video id="video" autoplay playsinline muted></video>
-        <div id="camera-error"></div>
-    </div>
+  <div id="componente-header"></div>
+  <div id="componente-calendario"></div>
+
+  <div class="video-container">
+    <video id="video" controls autoplay playsinline muted></video>
+    <div id="camera-error"></div>
+  </div>
 </body>
 </html>

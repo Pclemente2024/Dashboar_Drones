@@ -1,0 +1,49 @@
+services:
+  db:
+    image: postgres:15
+    container_name: drones-db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: dashboard_drones
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db_init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d dashboard_drones"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  app:
+    build: .
+    container_name: drones-app
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      db:
+        condition: service_healthy
+      mediamtx:
+        condition: service_started
+    environment:
+      - PGUSER=postgres
+      - PGPASSWORD=postgres
+      - PGDATABASE=dashboard_drones
+      - PGHOST=db
+      - PGPORT=5432
+
+  mediamtx:
+    image: bluenviron/mediamtx:latest
+    container_name: mediamtx
+    restart: unless-stopped
+    ports:
+      - "8554:8554"     # RTSP
+      - "8000:8000"     # HLS (si lo usas)
+      - "8888:8888"     # Web UI
+    volumes:
+      - ./mediamtx.yml:/mediamtx.yml

@@ -5,9 +5,10 @@ export function iniciarWebSocket(httpsServer) {
   global.wss = wss;
 
   wss.on('connection', (ws) => {
-    console.log("🟢 Cliente conectado al WebSocket");
+    console.log("Cliente conectado al WebSocket");
     ws.on('close', () => {
-      console.log("🔴 Cliente desconectado");
+      console.log("Cliente desconectado");
     });
   });
 };
+//se puede hacer una clase

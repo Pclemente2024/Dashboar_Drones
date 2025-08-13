@@ -10,7 +10,7 @@ import { iniciarWebSocket } from './communication/websocketHandler.js';
 const app = express();
 
 // IP y puerto del servidor
-const HOST = '192.168.1.146';
+const HOST = '0.0.0.0';
 const PORT = 3000;
 
 // Obtener __dirname
