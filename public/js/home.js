@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     // Conectar al WebSocket
-    const socket = new WebSocket("wss://192.168.1.146:3000");
+    const socket = new WebSocket("wss://localhost:3000");
 
     socket.onopen = () => {
         console.log("Conectado al WebSocket");
