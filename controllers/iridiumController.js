@@ -1,8 +1,6 @@
 import droneManager from '../communication/droneCommunicationManager.js';
-import geohash from 'ngeohash';
+import { desencriptarGeohash } from '../communication/geohashCrypto.js';
 import logger from '../logger.js';
-
-const { decode } = geohash;
 
 function parseCampo(valor) {
   const limpio = valor.replace(/[^\d\-]/g, '');
@@ -36,7 +34,6 @@ function parsearTrama(trama) {
 function calcularPorcentaje(voltageMv) {
   const voltMin = 9900;
   const voltMax = 12600;
-
   let porcentaje = ((voltageMv - voltMin) / (voltMax - voltMin)) * 100;
   return Math.round(Math.max(0, Math.min(100, porcentaje)));
 }
@@ -50,7 +47,6 @@ const toVolts = (mv) => (mv / 1000).toFixed(2);
 export const recibirDatosIridium = async (req, res) => {
   try {
     const { serial_number, trama } = req.body;
-
     if (!serial_number || !trama) {
       logger.warn("Faltan campos: serial_number o trama");
       return res.status(400).json({ mensaje: "Faltan campos: serial_number o trama" });
@@ -59,7 +55,10 @@ export const recibirDatosIridium = async (req, res) => {
     logger.info(`Trama recibida: ${trama}`);
 
     const datosTrama = parsearTrama(trama);
-    const { latitude, longitude } = decode(datosTrama.geohash);
+    const { latitude, longitude } = desencriptarGeohash(datosTrama.geohash);
+
+    // Log para verificar geohash
+    console.log(`Latitud desencriptada: ${latitude}, Longitud desencriptada: ${longitude}`);
 
     const datos = {
       serial_number,
@@ -79,25 +78,10 @@ export const recibirDatosIridium = async (req, res) => {
 
     await droneManager.registrarDato(serial_number, datos);
 
-    // Generar alerta si la batería está baja
-    if (datos.porcentaje_bateria < 20) {
-      const { generarAlerta } = await import('../communication/alertUtils.js');
-      await generarAlerta(serial_number, 'bateria_baja', 'Batería baja detectada');
-
-      if (global.wss) {
-        global.wss.clients.forEach(client => {
-          if (client.readyState === 1) {
-            client.send(JSON.stringify({
-              tipo: 'alerta',
-              mensaje: 'Batería baja detectada en el dron'
-            }));
-          }
-        });
-      }
-    }
-
-    // Payload con conversiones
+    // Payload con conversiones + lat/lon
     const payloadAdaptado = {
+      lat: datos.lat,
+      lon: datos.lon,
       porcentaje_bateria: datos.porcentaje_bateria,
       velocidad_airspeed_knots: toKnots(datos.airspeed).toFixed(1),
       velocidad_groundspeed_knots: toKnots(datos.groundspeed).toFixed(1),
@@ -117,8 +101,6 @@ export const recibirDatosIridium = async (req, res) => {
           }));
         }
       });
-    } else {
-      logger.warn("WebSocket server no disponible (global.wss undefined)");
     }
 
     res.status(200).json({ mensaje: "Trama procesada correctamente" });

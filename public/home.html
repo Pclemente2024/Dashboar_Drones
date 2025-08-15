@@ -1,39 +1,68 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
+  <meta charset="UTF-8">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard Usuario</title>
-  <link rel="stylesheet" href="/css/style.css" />
+
+  <!-- CSS del proyecto -->
+  <link rel="stylesheet" href="/css/style.css">
+
+  <!-- Leaflet para el mapa -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <script defer src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+  <!-- JS del proyecto -->
   <script defer src="/js/menu.js"></script>
   <script defer src="/js/incluirComponentes.js"></script>
   <script defer src="/js/home.js"></script>
-</head>
 
+  <style>
+    main {
+      display: flex;
+      height: calc(100vh - 50px);
+    }
+
+    #map {
+      flex: 1;
+      height: 100%;
+      width: 100%;
+    }
+
+    .status-panel {
+      width: 250px;
+      background: black;
+      color: white;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      align-items: center;
+      text-align: center;
+    }
+  </style>
+</head>
 <body>
-  <!-- Aquí se insertará dinámicamente el header y el sidebar -->
+  <!-- Header dinámico -->
   <div id="componente-header"></div>
+
   <main>
-    <div class="map-placeholder">
-      <!-- Mapa real embebido desde Google Maps -->
-      <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d704.8260173444334!2d-79.93873593555946!3d-2.1158831143416417!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x902d73b9f4d745f1%3A0xe1fb4d233e541b99!2sROBIOTEC!5e0!3m2!1ses-419!2sec!4v1749215694700!5m2!1ses-419!2sec"
-        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-      </iframe>
-    </div>
+    <!-- Mapa del dron -->
+    <div id="map"></div>
+
+    <!-- Panel de status -->
     <div class="status-panel">
       <div class="status-item">
         <strong>BATERÍA</strong><br><span id="bateria">00%</span>
       </div>
       <div class="status-item">
-        <strong>VELOCIDAD</strong><br><span id="velocidad">0.0 km/h</span>
+        <strong>VELOCIDAD</strong><br><span id="velocidad">0.0 kt</span>
       </div>
       <div class="status-item">
-        <strong>ALTITUD</strong><br><span id="altitud">0 m</span>
+        <strong>ALTITUD</strong><br><span id="altitud">0 ft</span>
       </div>
       <div class="status-item">
         <strong>CLIMB RATE</strong><br><span id="climb">0 ft/min</span>
@@ -44,10 +73,7 @@
       <div class="status-item">
         <strong>SATÉLITES</strong><br><span id="satelites">0</span>
       </div>
-
     </div>
-
   </main>
 </body>
-
 </html>

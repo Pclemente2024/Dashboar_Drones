@@ -84,7 +84,7 @@ body {
   background: #000000;
   color: white;
   padding: 60px 0 0 0;
-  z-index: 1000;
+  z-index: 5000;
   transition: left 0.3s ease;
 }
 
@@ -156,7 +156,7 @@ main {
 }
 
 .map-placeholder {
-  flex: 3;
+  flex: 1;
   height: 100%;
   display: flex;
 }
